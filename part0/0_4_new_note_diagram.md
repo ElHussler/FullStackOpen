@@ -9,11 +9,13 @@ sequenceDiagram
     activate server
     
     Note right of browser: User-entered note content is sent as the Payload of the POST request
+    
+    Note left of server: Note content is added alongside a new Date to a server-side notes array
 
     server-->>browser: HTTP Redirect (302 Found)
     deactivate server
     
-    Note right of browser: The server uses a redirect asking the browser to perform a GET request to the "Location" property in the initial request's Response Header
+    Note left of server: Server sends a redirect asking the browser to perform a GET request to the "Location" property in the initial POST request's Response Header
 
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
