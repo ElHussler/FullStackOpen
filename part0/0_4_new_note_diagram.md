@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     participant browser
     participant server
@@ -9,14 +10,14 @@ sequenceDiagram
     
     Note right of browser: User-entered note content is sent as the Payload of the POST request
 
-    server->>browser: HTTP Redirect (302 Found)
+    server-->>browser: HTTP Redirect (302 Found)
     deactivate server
     
     Note right of browser: The server uses a redirect asking the browser to perform a GET request to the "Location" property in the initial request's Response Header
 
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
-    server->>browser: HTML document
+    server-->>browser: HTML document
     deactivate server
 
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
@@ -37,3 +38,4 @@ sequenceDiagram
     deactivate server
 
     Note right of browser: The browser executes the callback function that renders the notes
+```
