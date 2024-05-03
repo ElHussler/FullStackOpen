@@ -11,7 +11,8 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
-   
+  
+  const [points, setPoints] = useState(Array(8).fill(0))
   const [selected, setSelected] = useState(0)
 
   const randomIndex = () => {
@@ -19,12 +20,22 @@ const App = () => {
     setSelected(newIndex)
   }
 
+  const voteForQuote = () => {
+    const copy = [...points]
+    copy[selected]+= 1
+    setPoints(copy)
+  }
+
   return (
     <div>
+      <button onClick={voteForQuote}>
+        VOTE
+      </button>
       <button onClick={randomIndex}>
         randomise!
       </button>
       <p>{anecdotes[selected]}</p>
+      <p>...has {points[selected]} votes</p>
     </div>
   )
 }
