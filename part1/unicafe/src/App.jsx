@@ -4,13 +4,28 @@ const Header = ({ text }) => <h1>{text}</h1>
 
 const Button = ({ text, handleClick }) => <button onClick={handleClick}>{text}</button>
 
-const GiveFeedback = ({ handleGood, handleNeutral, handleBad }) => {
+const GiveFeedback = ({ good, setGood, neutral, setNeutral, bad, setBad }) => {
+  const setGoodReview = () => {
+    console.log('setGoodReview called')
+    setGood(good + 1)
+  }
+
+  const setNeutralReview = () => {
+    console.log('setNeutralReview called')
+    setNeutral(neutral + 1)
+  }
+
+  const setBadReview = () => {
+    console.log('setBadReview called')
+    setBad(bad + 1)
+  }
+
   return (
     <div>
       <Header text='give feedback' />
-      <Button text='good' handleClick={handleGood} />
-      <Button text='neutral' handleClick={handleNeutral} />
-      <Button text='bad' handleClick={handleBad} />
+      <Button text='good' handleClick={() => setGoodReview()} />
+      <Button text='neutral' handleClick={() => setNeutralReview()} />
+      <Button text='bad' handleClick={() => setBadReview()} />
     </div>
   )
 }
@@ -33,26 +48,12 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
-  const setGoodReview = () => {
-    console.log('setGoodReview called')
-    setGood(good + 1)
-  }
-
-  const setNeutralReview = () => {
-    console.log('setNeutralReview called')
-    setNeutral(neutral + 1)
-  }
-
-  const setBadReview = () => {
-    console.log('setBadReview called')
-    setBad(bad + 1)
-  }
-
   return (
     <div>
-      <GiveFeedback good={good} handleGood={() => setGoodReview()}
-        neutral={neutral} handleNeutral ={() => setNeutralReview()}
-        bad={bad} handleBad ={() => setBadReview()} />
+      <GiveFeedback
+        good={good} setGood={setGood}
+        neutral={neutral} setNeutral={setNeutral}
+        bad={bad} setBad={setBad} />
 
       <DisplayResults good={good} neutral={neutral} bad={bad} />
     </div>
