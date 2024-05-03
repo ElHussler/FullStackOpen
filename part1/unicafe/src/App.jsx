@@ -5,27 +5,12 @@ const Header = ({ text }) => <h1>{text}</h1>
 const Button = ({ text, handleClick }) => <button onClick={handleClick}>{text}</button>
 
 const GiveFeedback = ({ good, setGood, neutral, setNeutral, bad, setBad }) => {
-  const setGoodReview = () => {
-    console.log('setGoodReview called')
-    setGood(good + 1)
-  }
-
-  const setNeutralReview = () => {
-    console.log('setNeutralReview called')
-    setNeutral(neutral + 1)
-  }
-
-  const setBadReview = () => {
-    console.log('setBadReview called')
-    setBad(bad + 1)
-  }
-
   return (
     <div>
       <Header text='give feedback' />
-      <Button text='good' handleClick={() => setGoodReview()} />
-      <Button text='neutral' handleClick={() => setNeutralReview()} />
-      <Button text='bad' handleClick={() => setBadReview()} />
+      <Button text='good' handleClick={() => setGood(good + 1)} />
+      <Button text='neutral' handleClick={() => setNeutral(neutral + 1)} />
+      <Button text='bad' handleClick={() => setBad(bad + 1)} />
     </div>
   )
 }
