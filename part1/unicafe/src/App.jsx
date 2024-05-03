@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
-const Header = ({ text }) => <h1>{text}</h1>
+const Header = ({ text }) => <><h1>{text}</h1></>
 
-const Button = ({ text, handleClick }) => <button onClick={handleClick}>{text}</button>
+const Button = ({ text, handleClick }) => <><button onClick={handleClick}>{text}</button></>
 
 const GiveFeedback = ({ good, setGood, neutral, setNeutral, bad, setBad }) => {
   return (
