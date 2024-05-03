@@ -17,7 +17,7 @@ const GiveFeedback = ({ good, setGood, neutral, setNeutral, bad, setBad }) => {
 
 const DisplayStatistic = ({ text, total, isPercentage }) => <><p>{text} {total} {isPercentage? '%' : ''}</p></>
 
-const DisplayResults = ({ good, neutral, bad }) => {
+const Statistics = ({ good, neutral, bad }) => {
   const calculateTotal = () => {
     return good + neutral + bad
   }
@@ -60,7 +60,7 @@ const App = () => {
         neutral={neutral} setNeutral={setNeutral}
         bad={bad} setBad={setBad} />
 
-      <DisplayResults good={good} neutral={neutral} bad={bad} />
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   )
 }
