@@ -15,7 +15,42 @@ const GiveFeedback = ({ good, setGood, neutral, setNeutral, bad, setBad }) => {
   )
 }
 
-const StatisticLine = ({ text, total, isPercentage }) => <><p>{text} {total} {isPercentage? '%' : ''}</p></>
+const StatisticLineName = ({ text }) => <><p>{text}</p></>
+
+const StatisticLineData = ({ total, isPercentage }) => <><p> {total} {isPercentage? '%' : ''}</p></>
+
+const StatisticTable = ({ good, neutral, bad, calculateAverage, calculateGoodPercentage }) => {
+  return (
+    <table>
+      <tbody>
+        <tr>
+          <th><StatisticLineName text={'good'} /></th>
+          <td><StatisticLineData total={good} /></td>
+        </tr>
+        <tr>
+          <th><StatisticLineName text={'neutral'} /></th>
+          <td><StatisticLineData total={neutral} /></td>
+        </tr>
+        <tr>
+          <th><StatisticLineName text={'bad'} /></th>
+          <td><StatisticLineData total={bad} /></td>
+        </tr>
+        <tr>
+          <th><StatisticLineName text={'all'} /></th>
+          <td><StatisticLineData total={good + neutral + bad} /></td>
+        </tr>
+        <tr>
+          <th><StatisticLineName text={'average'} /></th>
+          <td><StatisticLineData total={calculateAverage()} /></td>
+        </tr>
+        <tr>
+          <th><StatisticLineName text={'positive'} /></th>
+          <td><StatisticLineData total={calculateGoodPercentage()} isPercentage={true} /></td>
+        </tr>
+      </tbody>
+    </table>
+  )
+}
 
 const Statistics = ({ good, neutral, bad }) => {
   const calculateTotal = () => {
@@ -47,12 +82,10 @@ const Statistics = ({ good, neutral, bad }) => {
   return (
     <div>
       <Header text='statistics' />
-      <StatisticLine text='good' total={good} />
-      <StatisticLine text='neutral' total={neutral} />
-      <StatisticLine text='bad' total={bad} />
-      <StatisticLine text='all' total={good + neutral + bad} />
-      <StatisticLine text='average' total={calculateAverage()} />
-      <StatisticLine text='positive' total={calculateGoodPercentage()} isPercentage={true} />
+      <StatisticTable 
+        good={good} neutral={neutral} bad={bad}
+        calculateAverage={calculateAverage}
+        calculateGoodPercentage={calculateGoodPercentage} />
     </div>
   )
 }
