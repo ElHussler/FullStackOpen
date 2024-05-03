@@ -15,7 +15,7 @@ const GiveFeedback = ({ good, setGood, neutral, setNeutral, bad, setBad }) => {
   )
 }
 
-const DisplayStatistic = ({ text, total, isPercentage }) => <><p>{text} {total} {isPercentage? '%' : ''}</p></>
+const StatisticLine = ({ text, total, isPercentage }) => <><p>{text} {total} {isPercentage? '%' : ''}</p></>
 
 const Statistics = ({ good, neutral, bad }) => {
   const calculateTotal = () => {
@@ -47,12 +47,12 @@ const Statistics = ({ good, neutral, bad }) => {
   return (
     <div>
       <Header text='statistics' />
-      <DisplayStatistic text='good' total={good} />
-      <DisplayStatistic text='neutral' total={neutral} />
-      <DisplayStatistic text='bad' total={bad} />
-      <DisplayStatistic text='all' total={good + neutral + bad} />
-      <DisplayStatistic text='average' total={calculateAverage()} />
-      <DisplayStatistic text='positive' total={calculateGoodPercentage()} isPercentage={true} />
+      <StatisticLine text='good' total={good} />
+      <StatisticLine text='neutral' total={neutral} />
+      <StatisticLine text='bad' total={bad} />
+      <StatisticLine text='all' total={good + neutral + bad} />
+      <StatisticLine text='average' total={calculateAverage()} />
+      <StatisticLine text='positive' total={calculateGoodPercentage()} isPercentage={true} />
     </div>
   )
 }
