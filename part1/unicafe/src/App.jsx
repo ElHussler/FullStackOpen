@@ -15,15 +15,35 @@ const GiveFeedback = ({ good, setGood, neutral, setNeutral, bad, setBad }) => {
   )
 }
 
-const DisplayTotal = ({ text, total }) => <><p>{text} {total}</p></>
+const DisplayStatistic = ({ text, total, isPercentage }) => <><p>{text} {total} {isPercentage? '%' : ''}</p></>
 
 const DisplayResults = ({ good, neutral, bad }) => {
+  const calculateTotal = () => {
+    return good + neutral + bad
+  }
+
+  const calculateAverage = () => {
+    let goodRatingValue = good * 1
+    let neutralRatingValue = neutral * 0
+    let badRatingValue = bad * -1
+    let reviewCount = calculateTotal()
+
+    return ((goodRatingValue + neutralRatingValue + badRatingValue) / reviewCount)
+  }
+
+  const calculateGoodPercentage = () => {
+    return (good / calculateTotal()) * 100
+  }
+
   return (
     <div>
       <Header text='statistics' />
-      <DisplayTotal text='good' total={good} />
-      <DisplayTotal text='neutral' total={neutral} />
-      <DisplayTotal text='bad' total={bad} />
+      <DisplayStatistic text='good' total={good} />
+      <DisplayStatistic text='neutral' total={neutral} />
+      <DisplayStatistic text='bad' total={bad} />
+      <DisplayStatistic text='all' total={good + neutral + bad} />
+      <DisplayStatistic text='average' total={calculateAverage()} />
+      <DisplayStatistic text='positive' total={calculateGoodPercentage()} isPercentage={true} />
     </div>
   )
 }
