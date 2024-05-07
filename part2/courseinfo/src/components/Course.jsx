@@ -2,12 +2,10 @@ const Header = ({ name }) => <h1>{name}</h1>
 
 const Total = ({ parts }) => {
     const exercises = parts.map(parts => parts.exercises)
-    
-    let runningTotal = 0
-    exercises.forEach(exercise => {runningTotal+=exercise});
+    const total = exercises.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
 
     return (
-        <p>Number of exercises {runningTotal}</p>
+        <p>Number of exercises {total}</p>
     )
 }
 
