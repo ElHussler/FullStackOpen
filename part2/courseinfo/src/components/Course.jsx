@@ -1,6 +1,15 @@
 const Header = ({ name }) => <h1>{name}</h1>
 
-// const Total = ({ sum }) => <p>Number of exercises {sum}</p>
+const Total = ({ parts }) => {
+    const exercises = parts.map(parts => parts.exercises)
+    
+    let runningTotal = 0
+    exercises.forEach(exercise => {runningTotal+=exercise});
+
+    return (
+        <p>Number of exercises {runningTotal}</p>
+    )
+}
 
 const Part = ({ name, exercises }) => 
   <p>
@@ -17,7 +26,7 @@ const Course = ({ course }) => {
         <div>
             <Header name={course.name} />
             <Content parts={course.parts} />
-            {/* <Total sum={course.parts[0].exercises + parts[1].exercises + parts[2].exercises} /> */}
+            <Total parts={course.parts} />
         </div>
     )   
 }
