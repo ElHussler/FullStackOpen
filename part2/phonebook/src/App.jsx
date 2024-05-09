@@ -3,12 +3,15 @@ import personService from './services/person'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import Notification from './components/Notification'
+import './index.css'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchName, setSearchName] = useState('')
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -20,6 +23,13 @@ const App = () => {
     console.log('persons: ', persons)
     console.log('person with same name as entered: ', persons.find(persons => persons.name === newName))
     return persons.find(persons => persons.name === newName)
+  }
+
+  const showTimedMessage = (messageContent, seconds) => {
+    setMessage(messageContent)
+    setTimeout(() => {
+      setMessage(null)
+    }, seconds)
   }
 
   const addPerson = (event) => {
@@ -35,6 +45,7 @@ const App = () => {
             setPersons(persons.map(person => person.id !== returnedPerson.id ? person : returnedPerson))
             setNewName('')
             setNewNumber('')
+            showTimedMessage(`Updated number for ${returnedPerson.name} successfully`, 5000)
           })
       }
     }
@@ -45,6 +56,7 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          showTimedMessage(`Added ${returnedPerson.name} successfully`, 5000)
       })
   }
 
@@ -56,6 +68,7 @@ const App = () => {
         .deletePerson(id)
         .then(returnedPerson => {
           setPersons(persons.filter(person => person.id !== returnedPerson.id))
+          showTimedMessage(`Deleted ${returnedPerson.name} successfully`, 5000)
         })
   }
 
@@ -74,6 +87,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={message} />
 
       <Filter searchName={searchName} handleSearchNameChange={handleSearchNameChange} />
 
