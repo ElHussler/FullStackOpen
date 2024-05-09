@@ -25,13 +25,25 @@ const App = () => {
     return persons.filter(persons => persons.name === newName).length > 0
   }
 
+  const postPerson = (newPerson) => {
+    console.log('postPerson called');
+    axios
+      .post('http://localhost:3001/persons', newPerson)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson.data))
+        setNewName('')
+        setNewNumber('')
+        console.log('POST done, person STATE updated, new name/number STATE blanked');
+      })
+  }
+
   const addPerson = (event) => {
     event.preventDefault()
+    const newPerson = { name: newName, number: newNumber }
+
     nameTaken()
       ? alert(`${newName} is already added to phonebook`)
-      : setPersons(persons.concat({ name: newName, number: newNumber }))
-    setNewName('')
-    setNewNumber('')
+      : postPerson(newPerson)
   }
 
   const handleNameChange = (event) => {
