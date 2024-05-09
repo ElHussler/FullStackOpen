@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import personService from './services/person'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
@@ -11,29 +11,22 @@ const App = () => {
   const [searchName, setSearchName] = useState('')
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
-      })
+    personService
+      .getAll()
+      .then(initialPersons => setPersons(initialPersons))
   }, [])
-  console.log('render', persons.length, 'persons')
-
+  
   const nameTaken = () => {
     return persons.filter(persons => persons.name === newName).length > 0
   }
 
   const postPerson = (newPerson) => {
-    console.log('postPerson called');
-    axios
-      .post('http://localhost:3001/persons', newPerson)
+    personService
+      .create(newPerson)
       .then(returnedPerson => {
-        setPersons(persons.concat(returnedPerson.data))
+        setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
-        console.log('POST done, person STATE updated, new name/number STATE blanked');
       })
   }
 
