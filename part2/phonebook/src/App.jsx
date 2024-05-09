@@ -17,18 +17,30 @@ const App = () => {
   }, [])
   
   const nameTaken = () => {
-    return persons.filter(persons => persons.name === newName).length > 0
+    console.log('persons: ', persons)
+    console.log('person with same name as entered: ', persons.find(persons => persons.name === newName))
+    return persons.find(persons => persons.name === newName)
   }
 
   const addPerson = (event) => {
     event.preventDefault()
-    const newPerson = { name: newName, number: newNumber }
+    const enteredPerson = { name: newName, number: newNumber }
+    const personExists = nameTaken()
 
-    if (nameTaken())
-      alert(`${newName} is already added to phonebook`)
+    if (personExists) {
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        personService
+          .update(personExists.id, enteredPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id !== returnedPerson.id ? person : returnedPerson))
+            setNewName('')
+            setNewNumber('')
+          })
+      }
+    }
     else
       personService
-        .create(newPerson)
+        .create(enteredPerson)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
