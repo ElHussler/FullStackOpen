@@ -16,19 +16,9 @@
       "id": "4"
     },
     {
-      "name": "jim",
-      "number": "123",
-      "id": "05bd"
-    },
-    {
       "name": "bob",
       "number": "012",
       "id": "597e"
-    },
-    {
-      "id": "e61a",
-      "name": "alan",
-      "number": "789"
     },
     {
       "id": "f17c",
@@ -39,11 +29,6 @@
       "name": "JAMJAMJAM",
       "number": "1",
       "id": "688c"
-    },
-    {
-      "id": "a8c9",
-      "name": "JIMMM",
-      "number": "1"
     }
   ]
 }

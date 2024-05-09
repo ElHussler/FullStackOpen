@@ -4,6 +4,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import Notification from './components/Notification'
+import ErrorMessage from './components/ErrorMessage'
 import './index.css'
 
 const App = () => {
@@ -12,6 +13,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchName, setSearchName] = useState('')
   const [message, setMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -23,6 +25,13 @@ const App = () => {
     console.log('persons: ', persons)
     console.log('person with same name as entered: ', persons.find(persons => persons.name === newName))
     return persons.find(persons => persons.name === newName)
+  }
+
+  const showTimedError = (messageContent, seconds) => {
+    setErrorMessage(messageContent)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, seconds)
   }
 
   const showTimedMessage = (messageContent, seconds) => {
@@ -47,6 +56,10 @@ const App = () => {
             setNewNumber('')
             showTimedMessage(`Updated number for ${returnedPerson.name} successfully`, 5000)
           })
+          .catch(error => {
+            console.log('error occurred: ', error)
+            showTimedError(`Information of ${enteredPerson.name} has already been removed from server`, 5000)
+          })
       }
     }
     else
@@ -57,7 +70,11 @@ const App = () => {
           setNewName('')
           setNewNumber('')
           showTimedMessage(`Added ${returnedPerson.name} successfully`, 5000)
-      })
+        })
+        .catch(error => {
+          console.log('error occurred: ', error)
+          showTimedError(`Information of ${enteredPerson.name} could not be added to server`, 5000)
+        })
   }
 
   const handleDelete = (id) => {
@@ -69,6 +86,10 @@ const App = () => {
         .then(returnedPerson => {
           setPersons(persons.filter(person => person.id !== returnedPerson.id))
           showTimedMessage(`Deleted ${returnedPerson.name} successfully`, 5000)
+        })
+        .catch(error => {
+          console.log('error occurred: ', error)
+          showTimedError(`Information of ${personToDelete.name} has already been removed from server`, 5000)
         })
   }
 
@@ -88,6 +109,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
 
+      <ErrorMessage errorMessage={errorMessage} />
       <Notification message={message} />
 
       <Filter searchName={searchName} handleSearchNameChange={handleSearchNameChange} />
