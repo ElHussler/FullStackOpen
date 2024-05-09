@@ -1,4 +1,4 @@
-const Persons = ({ persons, searchName }) => {
+const Persons = ({ persons, searchName, handleDelete }) => {
     const personsToShow = 
         (searchName === '')
         ? persons
@@ -6,7 +6,11 @@ const Persons = ({ persons, searchName }) => {
 
     return (
         <div>
-            {personsToShow.map(person => <p key={person.name}>{person.name} {person.number}</p>)}
+            {personsToShow.map(person =>
+                <p key={person.name}>{person.name} {person.number} 
+                    <button onClick={() => handleDelete(person.id)}>delete</button>
+                </p>
+            )}
         </div>
     )
 }
