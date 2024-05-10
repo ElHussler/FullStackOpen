@@ -1,6 +1,10 @@
-const CountryList = ({ countryToFind, countryList }) => {
+const CountryList = ({ countryToFind, countryList, setCountryToFind }) => {
     const countriesToShow = countryList.filter(c => c.name.common.toLowerCase().includes(countryToFind.toLowerCase()))
     const countryCount = countriesToShow.length
+
+    const handleShowCountry = (countryName) => {
+        setCountryToFind(countryName)
+    }
 
     if (countryToFind === '')
         return (
@@ -22,7 +26,7 @@ const CountryList = ({ countryToFind, countryList }) => {
             <>
                 {countriesToShow
                 .map(c => (
-                    <p key={c.cca2}>{c.name.common}</p>
+                    <p key={c.cca2}>{c.name.common} <button onClick={() => handleShowCountry(c.name.common)}>show</button></p>
                 ))}
             </>
         )

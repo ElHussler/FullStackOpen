@@ -26,7 +26,7 @@ const App = () => {
     <div>
       <p>find countries <input type='text' value={countryToFind} onChange={handleCountryChange} /></p>
 
-      <CountryList countryToFind={countryToFind} countryList={countryList} />
+      <CountryList countryToFind={countryToFind} countryList={countryList} setCountryToFind={setCountryToFind} />
     </div>
   )
 }
