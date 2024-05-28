@@ -1,3 +1,5 @@
+import Weather from "./Weather"
+
 const CountryList = ({ countryToFind, countryList, setCountryToFind }) => {
     const countriesToShow = countryList.filter(c => c.name.common.toLowerCase().includes(countryToFind.toLowerCase()))
     const countryCount = countriesToShow.length
@@ -51,6 +53,8 @@ const CountryList = ({ countryToFind, countryList, setCountryToFind }) => {
                 </ul>
 
                 <img src={returnedCountry.flags['png']} alt={returnedCountry.flags['alt']} />
+
+                <Weather cityName={returnedCountry.capital} />
             </>
         )
     }
