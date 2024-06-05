@@ -57,8 +57,8 @@ const App = () => {
             showTimedMessage(`Updated number for ${returnedPerson.name} successfully`, 5000)
           })
           .catch(error => {
-            console.log('error occurred: ', error)
-            showTimedError(`Information of ${enteredPerson.name} has already been removed from server`, 5000)
+            console.log('error occurred: ', error.response.data.error)
+            showTimedError(error.response.data.error, 5000)
           })
       }
     }
@@ -72,8 +72,8 @@ const App = () => {
           showTimedMessage(`Added ${returnedPerson.name} successfully`, 5000)
         })
         .catch(error => {
-          console.log('error occurred: ', error)
-          showTimedError(`Information of ${enteredPerson.name} could not be added to server`, 5000)
+          console.log('error occurred: ', error.response.data.error)
+          showTimedError(error.response.data.error, 5000)
         })
   }
 
