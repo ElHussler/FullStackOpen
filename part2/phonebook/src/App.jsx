@@ -83,9 +83,9 @@ const App = () => {
     if (window.confirm(`Delete ${personToDelete.name} ? `))
       personService
         .deletePerson(id)
-        .then(returnedPerson => {
-          setPersons(persons.filter(person => person.id !== returnedPerson.id))
-          showTimedMessage(`Deleted ${returnedPerson.name} successfully`, 5000)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== personToDelete.id))
+          showTimedMessage(`Deleted ${personToDelete.name} successfully`, 5000)
         })
         .catch(error => {
           console.log('error occurred: ', error)
