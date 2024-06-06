@@ -141,3 +141,30 @@ describe('most blogs', () => {
     assert.notDeepStrictEqual(listHelper.mostBlogs(blogs), leastBlogsAuthor)
   })
 })
+
+describe('most likes', () => {
+  const mostLikesAuthor = {
+    author: "Edsger W. Dijkstra",
+    likes: 17
+  }
+
+  const lowerLikesAuthor = {
+    author: "Bibbity Bobbity",
+    likes: 2
+  }
+
+  const leastLikesAuthor = {
+    author: "Jiminy Billy Bob",
+    likes: 0
+  }
+
+  test('of author with most likes is returned', () => {
+    assert.deepStrictEqual(listHelper.mostLikes(blogs), mostLikesAuthor)
+  })
+  test('of author with lower number of likes is not returned', () => {
+    assert.notDeepStrictEqual(listHelper.mostLikes(blogs), lowerLikesAuthor)
+  })
+  test('of author with no likes is not returned', () => {
+    assert.notDeepStrictEqual(listHelper.mostLikes(blogs), leastLikesAuthor)
+  })
+})
