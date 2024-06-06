@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "The Benefits Of GOONING",
+    "title": "The Benefits Of GOONING FINAL",
     "author": "Jimbly Jambles",
     "url": "http://test.url.com",
-    "likes": 69
+    "likes": 6942069420420
 }
