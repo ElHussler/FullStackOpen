@@ -36,6 +36,27 @@ test('unique id blog post property is named id', async () => {
     assert.strictEqual(Object.keys(blogPost).includes('id'), true)
 })
 
+test('POST creates new blog post', async () => {
+    const newBlog = {
+        title: "ADDED BY TEST",
+        author: "Michael Chan",
+        url: "https://reactpatterns.com/",
+        likes: 69,
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    const blogsInDb = (await Blog.find({})).map(blog => blog.toJSON())
+    const titles = blogsInDb.map(b => b.title)
+
+    assert.strictEqual(blogsInDb.length, helper.initialBlogs.length + 1)
+    assert(titles.includes('ADDED BY TEST'))
+})
+
 after(async () => {
     await mongoose.connection.close()
 })
