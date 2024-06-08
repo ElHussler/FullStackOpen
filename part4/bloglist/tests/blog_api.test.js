@@ -57,6 +57,24 @@ test('POST creates new blog post', async () => {
     assert(titles.includes('ADDED BY TEST'))
 })
 
+test('if likes property is missing default to zero', async () => {
+    const newBlog = {
+        title: "ADDED BY TEST WITHOUT LIKES PROPERTY",
+        author: "Michael Chan",
+        url: "https://reactpatterns.com/"
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+    
+    const blogSavedInDb = (await Blog.find({ title: newBlog.title })).map(blog => blog.toJSON())
+
+    assert.strictEqual(blogSavedInDb[0].likes, 0)
+})
+
 after(async () => {
     await mongoose.connection.close()
 })
