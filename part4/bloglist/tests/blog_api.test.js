@@ -1,4 +1,4 @@
-const { test, after, beforeEach } = require('node:test')
+const { test, after, beforeEach, describe } = require('node:test')
 const assert = require('node:assert')
 const supertest = require('supertest')
 const mongoose = require('mongoose')
@@ -73,6 +73,33 @@ test('if likes property is missing default to zero', async () => {
     const blogSavedInDb = (await Blog.find({ title: newBlog.title })).map(blog => blog.toJSON())
 
     assert.strictEqual(blogSavedInDb[0].likes, 0)
+})
+
+describe('POST new blog post', () => {
+    test('if title property is missing return 400 bad request', async () => {
+        const newBlog = {
+            author: "Michael Chan WITHOUT A BLOG TITLE",
+            url: "https://reactpatterns.com/",
+            likes: 69,
+        }
+
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(400)
+    })
+    test('if url property is missing return 400 bad request', async () => {
+        const newBlog = {
+            title: "ADDED BY TEST WITHOUT URL",
+            author: "Michael Chan WITHOUT A URL",
+            likes: 69,
+        }
+
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(400)
+    })
 })
 
 after(async () => {
