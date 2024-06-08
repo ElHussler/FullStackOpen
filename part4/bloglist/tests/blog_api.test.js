@@ -133,6 +133,29 @@ describe('DELETE single blog post', () => {
     })
 })
 
+describe('PUT update an existing blog', () => {
+    test('blog updates number of likes on successful update', async () => {
+        const blogsAtStart = await helper.blogsInDb()
+        const blogToUpdate = blogsAtStart[0]
+
+        const updatedBlog = {
+            title: "React patterns BUT UPDATED",
+            author: "Michael Chan",
+            url: "https://reactpatterns.com/",
+            likes: 12345
+        }
+
+        const result = await api
+          .put(`/api/blogs/${blogToUpdate.id}`)
+          .send(updatedBlog)
+          .expect(200)
+          .expect('Content-Type', /application\/json/)
+        
+        const blogsAtEnd = await helper.blogsInDb()
+        assert.strictEqual(blogsAtEnd[0].likes, updatedBlog.likes)
+    })
+})
+
 after(async () => {
     await mongoose.connection.close()
 })

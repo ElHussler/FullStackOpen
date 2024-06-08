@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/blogs/6661a68325a2c4153a3e90a2
+Content-Type: application/json
+
+{
+    "title": "The Benefits Of GOONING FINAL BUT ACTUALLY FINAL THIS TIME",
+    "author": "Jimbly Jambles",
+    "url": "http://test.url.com",
+    "likes": 69696969
+}
