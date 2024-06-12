@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "node --test",
-		"lint": "eslint ."
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "test": "cross-env  NODE_ENV=test node --test",
+    "lint": "eslint ."
   },
   "author": "Luke",
   "license": "ISC",
@@ -21,8 +21,10 @@
     "@eslint/js": "^9.4.0",
     "@flydotio/dockerfile": "^0.5.7",
     "@stylistic/eslint-plugin-js": "^2.1.0",
+    "cross-env": "^7.0.3",
     "eslint": "^9.4.0",
     "globals": "^15.3.0",
-    "nodemon": "^3.1.2"
+    "nodemon": "^3.1.2",
+    "supertest": "^7.0.0"
   }
 }

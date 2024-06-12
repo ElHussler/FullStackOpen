@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const mongoose = require('mongoose')
 
 if (process.argv.length<3) {
@@ -20,16 +21,6 @@ const noteSchema = new mongoose.Schema({
 })
 
 const Note = mongoose.model('Note', noteSchema)
-
-// const note = new Note({
-//   content: 'HTML is easy 4',
-//   important: true,
-// })
-
-// note.save().then(result => {
-//   console.log('note saved!')
-//   mongoose.connection.close()
-// })
 
 Note.find({}).then(result => {
   result.forEach(note => {
