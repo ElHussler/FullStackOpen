@@ -1,9 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImppbWJseSIsImlkIjoiNjY2OWJiZDkzMzlkOTYwNWU3MDM5MDViIiwiaWF0IjoxNzE4NDcyNTA4fQ.AV1ZS-P5hJEjZzzRv0IGFhWifxLfPxijjGy49ksH90o
 
 {
-    "title": "The Benefits Of GOONING FINAL",
+    "title": "The bimbly wimbly",
     "author": "Jimbly Jambles",
     "url": "http://test.url.com",
-    "likes": 6942069420420
+    "likes": 96
 }
