@@ -2,11 +2,13 @@ const { test, after, beforeEach, describe } = require('node:test')
 const assert = require('node:assert')
 const supertest = require('supertest')
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 const helper = require('./blog_test_helper')
 const app = require('../app')
 const api = supertest(app)
 
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 beforeEach(async () => {
     await Blog.deleteMany({})
@@ -38,8 +40,53 @@ describe('GET blog posts', () => {
     })
 })
 
-describe('POST new blog post', () => {
-    test('POST creates new blog post', async () => {
+describe('POST new blog post without valid token', () => {
+    test('returns 401', async () => {
+        const newBlog = {
+            title: "ADDED BY TEST",
+            author: "Michael Chan",
+            url: "https://reactpatterns.com/",
+            likes: 69,
+        }
+
+        const response = await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(401)
+    })
+
+    test('returns expected error message', async () => {
+        const newBlog = {
+            title: "ADDED BY TEST",
+            author: "Michael Chan",
+            url: "https://reactpatterns.com/",
+            likes: 69,
+        }
+
+        const response = await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect('Content-Type', /application\/json/)
+        
+        assert(response.body.error.includes("token invalid"))
+    })
+})
+
+describe('POST new blog post with valid token', () => {
+    beforeEach(async () => {
+        await User.deleteMany({})
+    
+        const passwordHash = await bcrypt.hash('sekret', 10)
+        const user = new User({ username: 'root', passwordHash, name: 'john smith' })
+    
+        await user.save()
+    })
+
+    test('creates new blog post', async () => {
+        const response = await api
+            .post('/api/login')
+            .send({ username: "root", password: "sekret" })
+
         const newBlog = {
             title: "ADDED BY TEST",
             author: "Michael Chan",
@@ -49,6 +96,7 @@ describe('POST new blog post', () => {
 
         await api
             .post('/api/blogs')
+            .set('Authorization', `Bearer ${response.body.token}`) // Using the superagent behind supertest
             .send(newBlog)
             .expect(201)
             .expect('Content-Type', /application\/json/)
@@ -61,6 +109,10 @@ describe('POST new blog post', () => {
     })
 
     test('if likes property is missing default to zero', async () => {
+        const response = await api
+            .post('/api/login')
+            .send({ username: "root", password: "sekret" })
+
         const newBlog = {
             title: "ADDED BY TEST WITHOUT LIKES PROPERTY",
             author: "Michael Chan",
@@ -69,6 +121,7 @@ describe('POST new blog post', () => {
 
         await api
             .post('/api/blogs')
+            .set('Authorization', `Bearer ${response.body.token}`) // Using the superagent behind supertest
             .send(newBlog)
             .expect(201)
             .expect('Content-Type', /application\/json/)
@@ -77,7 +130,12 @@ describe('POST new blog post', () => {
 
         assert.strictEqual(blogSavedInDb[0].likes, 0)
     })
+
     test('if title property is missing return 400 bad request', async () => {
+        const response = await api
+            .post('/api/login')
+            .send({ username: "root", password: "sekret" })
+
         const newBlog = {
             author: "Michael Chan WITHOUT A BLOG TITLE",
             url: "https://reactpatterns.com/",
@@ -86,10 +144,16 @@ describe('POST new blog post', () => {
 
         await api
             .post('/api/blogs')
+            .set('Authorization', `Bearer ${response.body.token}`) // Using the superagent behind supertest
             .send(newBlog)
             .expect(400)
     })
+
     test('if url property is missing return 400 bad request', async () => {
+        const response = await api
+            .post('/api/login')
+            .send({ username: "root", password: "sekret" })
+
         const newBlog = {
             title: "ADDED BY TEST WITHOUT URL",
             author: "Michael Chan WITHOUT A URL",
@@ -98,18 +162,33 @@ describe('POST new blog post', () => {
 
         await api
             .post('/api/blogs')
+            .set('Authorization', `Bearer ${response.body.token}`) // Using the superagent behind supertest
             .send(newBlog)
             .expect(400)
     })
 })
 
 describe('DELETE single blog post', () => {
+    beforeEach(async () => {
+        await User.deleteMany({})
+    
+        const passwordHash = await bcrypt.hash('sekret', 10)
+        const user = new User({ username: 'root', passwordHash, name: 'john smith' })
+    
+        await user.save()
+    })
+
     test('succeeds with 204 code if id is valid', async () => {
+        const response = await api
+            .post('/api/login')
+            .send({ username: "root", password: "sekret" })
+
         const blogsAtStart = await helper.blogsInDb()
         const blogToDelete = blogsAtStart[0]
 
         await api
           .delete(`/api/blogs/${blogToDelete.id}`)
+          .set('Authorization', `Bearer ${response.body.token}`) // Using the superagent behind supertest
           .expect(204)
         
         const blogsAtEnd = await helper.blogsInDb()
@@ -119,12 +198,18 @@ describe('DELETE single blog post', () => {
         const titles = blogsAtEnd.map(b => b.title)
         assert(!titles.includes(blogToDelete.title))
     })
+    
     test('fails with 204 code if id is invalid', async () => {
+        const response = await api
+            .post('/api/login')
+            .send({ username: "root", password: "sekret" })
+
         const blogsAtStart = await helper.blogsInDb()
         const blogIdToDelete = await helper.nonExistingId()
 
         await api
           .delete(`/api/blogs/${blogIdToDelete}`)
+          .set('Authorization', `Bearer ${response.body.token}`) // Using the superagent behind supertest
           .expect(204)
         
         const blogsAtEnd = await helper.blogsInDb()

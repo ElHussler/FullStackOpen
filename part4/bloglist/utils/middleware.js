@@ -24,12 +24,11 @@ const userExtractor = async (request, response, next) => {
   const decodedToken = jwt.verify(request.token, process.env.SECRET)
   
   if (!decodedToken.id) {
+    console.log("decoded id DOESN'T EXIST")
     return response.status(401).json({ error: 'token invalid' })
   }
   
-  const user = await User.findById(decodedToken.id)
-  request.user = user
-  console.log("request.user: ", request.user)
+  request.user = await User.findById(decodedToken.id)
   
   next()
 }
@@ -49,6 +48,8 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400).json({ error: 'expected `username` to be unique' })
   } else if (error.name ===  'JsonWebTokenError') {
     return response.status(401).json({ error: 'token invalid' })
+  } else if (error.name ===  'Internal Server Error') {
+    return response.status(500).json({ error: 'token invalid' })
   }
 
   next(error)
