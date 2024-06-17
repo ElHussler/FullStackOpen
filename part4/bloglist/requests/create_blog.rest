@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImppbWJseSIsImlkIjoiNjY2OWJiZDkzMzlkOTYwNWU3MDM5MDViIiwiaWF0IjoxNzE4NDcyNTA4fQ.AV1ZS-P5hJEjZzzRv0IGFhWifxLfPxijjGy49ksH90o
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImppbWJseSIsImlkIjoiNjY2OWJiZDkzMzlkOTYwNWU3MDM5MDViIiwiaWF0IjoxNzE4NjM3OTMyfQ.GODEvvt6-Y_foxTVQLk9mhRxzRsSTLL2HYM1_GE7-Vs
 
 {
-    "title": "The bimbly wimbly",
+    "title": "RETURN OF THE JIMBLE 2",
     "author": "Jimbly Jambles",
     "url": "http://test.url.com",
-    "likes": 96
+    "likes": 9002
 }
