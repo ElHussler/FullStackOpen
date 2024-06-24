@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -11,6 +12,7 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -45,6 +47,10 @@ const App = () => {
     }
     catch (exception) {
       console.log("error: ", exception)
+      setMessage('wrong credentials')
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     }
   }
 
@@ -66,13 +72,22 @@ const App = () => {
 
     try {
       const blog = await blogService.create(newBlog)
+      
       setBlogs(blogs.concat(blog))
       setTitle('')
       setAuthor('')
       setUrl('')
+      setMessage(`New Blog: "${blog.title}" added to list`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     }
     catch (exception) {
       console.log("error: ", exception)
+      setMessage('invalid blog')
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     }
   }
 
@@ -80,6 +95,9 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
+
+        <Notification message={message} />
+
         <form onSubmit={handleLogin}>
           <div>
             username: 
@@ -108,6 +126,9 @@ const App = () => {
     <div>
       <button onClick={handleLogout}>logout</button>
       <h2>blogs</h2>
+
+      <Notification message={message} />
+
       <p>{user.name} logged in</p>
 
       <h2>create new</h2>
