@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const Blog = ({ blog, updateBlog }) => {
+const Blog = ({ blog, updateBlog, deleteBlog }) => {
   const [visible, setVisible] = useState(false)
 
   const blogStyle = {
@@ -22,6 +22,12 @@ const Blog = ({ blog, updateBlog }) => {
     }
     
     updateBlog(updatedBlog)
+  }
+
+  const showRemovePrompt = () => {
+    if (window.confirm(`Remove ${blog.title} by ${blog.author}?`)) {
+      deleteBlog(blog.id)
+    }
   }
 
   const toggleVisibility = () => {
@@ -48,6 +54,7 @@ const Blog = ({ blog, updateBlog }) => {
         <div>
           Added by user: {blog.user.name}
         </div>
+        <button onClick={showRemovePrompt}>remove</button>
       </div>
     </div>
   )

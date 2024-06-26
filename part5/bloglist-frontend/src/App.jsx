@@ -97,6 +97,20 @@ const App = () => {
     }
   }
 
+  const deleteBlog = async (blogId) => {
+    try {
+      await blogService.deleteBlog(blogId)
+      setBlogs(blogs.filter(b => b.id !== blogId))
+    }
+    catch (exception) {
+      console.log("error: ", exception)
+      setMessage('invalid blog delete')
+      setTimeout(() => {
+        setMessage(null)
+      }, 4000)
+    }
+  }
+
   const addBlogFormRef = useRef()
 
   if (user === null) {
@@ -144,7 +158,7 @@ const App = () => {
       </Togglable>
 
       {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-        <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
+        <Blog key={blog.id} blog={blog} updateBlog={updateBlog} deleteBlog={deleteBlog} />
       )}
     </div>
   )
