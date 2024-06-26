@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const Blog = ({ blog, updateBlog, deleteBlog }) => {
+const Blog = ({ blog, updateBlog, deleteBlog, userAdded }) => {
   const [visible, setVisible] = useState(false)
 
   const blogStyle = {
@@ -35,6 +35,7 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
   }
 
   const showWhenVisible = { display: visible ? '' : 'none' }
+  const showWhenAddedByUser = { display: userAdded ? '' : 'none' }
   const detailsButtonLabel = visible ? "cancel" : "view"
 
   return (
@@ -54,7 +55,7 @@ const Blog = ({ blog, updateBlog, deleteBlog }) => {
         <div>
           Added by user: {blog.user.name}
         </div>
-        <button onClick={showRemovePrompt}>remove</button>
+        <button style={showWhenAddedByUser} onClick={showRemovePrompt}>remove</button>
       </div>
     </div>
   )
