@@ -81,6 +81,20 @@ const App = () => {
     }
   }
 
+  const updateBlog = async (updatedBlog) => {
+    try {
+      const blog = await blogService.update(updatedBlog)
+      setBlogs(blogs.map(b => b.id !== blog.id ? b : blog))
+    }
+    catch (exception) {
+      console.log("error: ", exception)
+      setMessage('invalid blog update')
+      setTimeout(() => {
+        setMessage(null)
+      }, 4000)
+    }
+  }
+
   const addBlogFormRef = useRef()
 
   if (user === null) {
@@ -128,7 +142,7 @@ const App = () => {
       </Togglable>
 
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
       )}
     </div>
   )
