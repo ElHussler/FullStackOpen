@@ -18,7 +18,7 @@ const App = () => {
       .getAll()
       .then(blogs =>
         setBlogs( blogs )
-      )  
+      )
   }, [])
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const App = () => {
       setMessage(null)
     }
     catch (exception) {
-      console.log("error: ", exception)
+      console.log('error: ', exception)
       setMessage('wrong credentials')
       setTimeout(() => {
         setMessage(null)
@@ -75,7 +75,7 @@ const App = () => {
       }, 4000)
     }
     catch (exception) {
-      console.log("error: ", exception)
+      console.log('error: ', exception)
       setMessage('invalid blog')
       setTimeout(() => {
         setMessage(null)
@@ -89,7 +89,7 @@ const App = () => {
       setBlogs(blogs.map(b => b.id !== blog.id ? b : blog))
     }
     catch (exception) {
-      console.log("error: ", exception)
+      console.log('error: ', exception)
       setMessage('invalid blog update')
       setTimeout(() => {
         setMessage(null)
@@ -103,7 +103,7 @@ const App = () => {
       setBlogs(blogs.filter(b => b.id !== blogId))
     }
     catch (exception) {
-      console.log("error: ", exception)
+      console.log('error: ', exception)
       setMessage('invalid blog delete')
       setTimeout(() => {
         setMessage(null)
@@ -122,20 +122,20 @@ const App = () => {
 
         <form onSubmit={handleLogin}>
           <div>
-            username: 
-            <input 
+            username:
+            <input
               type='text'
               value={username}
               name="Username"
-              onChange={({target}) => {setUsername(target.value)}}
+              onChange={({ target }) => {setUsername(target.value)}}
             />
           </div>
           <div>
-            password: 
-            <input type='password' 
-              value={password} 
+            password:
+            <input type='password'
+              value={password}
               name="Password"
-              onChange={({target}) => {setPassword(target.value)}}
+              onChange={({ target }) => {setPassword(target.value)}}
             />
           </div>
           <button type='submit'>login</button>
@@ -160,13 +160,13 @@ const App = () => {
       {blogs
         .sort((a, b) => b.likes - a.likes)
         .map(blog =>
-        <Blog 
-          key={blog.id} 
-          blog={blog} 
-          updateBlog={updateBlog} 
-          deleteBlog={deleteBlog}
-          userAdded={user.username === blog.user.username} />
-      )}
+          <Blog
+            key={blog.id}
+            blog={blog}
+            updateBlog={updateBlog}
+            deleteBlog={deleteBlog}
+            userAdded={user.username === blog.user.username} />
+        )}
     </div>
   )
 }

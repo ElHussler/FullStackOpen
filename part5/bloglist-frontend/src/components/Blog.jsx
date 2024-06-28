@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 const Blog = ({ blog, updateBlog, deleteBlog, userAdded }) => {
   const [visible, setVisible] = useState(false)
@@ -20,7 +20,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, userAdded }) => {
       id: blog.id,
       user: blog.user.id
     }
-    
+
     updateBlog(updatedBlog)
   }
 
@@ -36,7 +36,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, userAdded }) => {
 
   const showWhenVisible = { display: visible ? '' : 'none' }
   const showWhenAddedByUser = { display: userAdded ? '' : 'none' }
-  const detailsButtonLabel = visible ? "cancel" : "view"
+  const detailsButtonLabel = visible ? 'cancel' : 'view'
 
   return (
     <div style={blogStyle}>
