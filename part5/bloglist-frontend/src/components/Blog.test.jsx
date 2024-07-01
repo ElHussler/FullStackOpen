@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
-import Blog from './Blog'
 import { expect } from 'vitest'
+import userEvent from '@testing-library/user-event'
+import Blog from './Blog'
 
 describe('<Blog /> component', () => {
   test('renders blog title and author but not blog URL or number of likes by default', () => {
@@ -21,5 +22,27 @@ describe('<Blog /> component', () => {
 
     expect(divTitleAuthor).toHaveTextContent(`${blog.title} ${blog.author}`)
     expect(divUrlLikes).toHaveStyle('display: none')
+  })
+
+  test('renders url and likes after view button is clicked', async () => {
+    const blog = {
+      title: 'test blog title #1',
+      author: 'test blog author #1',
+      url: 'test.blog.url.1',
+      likes: 1,
+      user: {
+        name: 'username1'
+      }
+    }
+
+    const { container } = render(<Blog blog={blog} />)
+
+    const divUrlLikes = container.querySelector('.blogUrlLikes')
+
+    const user = userEvent.setup()
+    const button = screen.getByText('view')
+    await user.click(button)
+
+    expect(divUrlLikes).not.toHaveStyle('display: none')
   })
 })
