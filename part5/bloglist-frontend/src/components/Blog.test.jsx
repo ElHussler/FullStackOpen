@@ -45,4 +45,30 @@ describe('<Blog /> component', () => {
 
     expect(divUrlLikes).not.toHaveStyle('display: none')
   })
+
+  test('calls update blog event twice when like button is pressed twice', async () => {
+    const blog = {
+      title: 'test blog title #1',
+      author: 'test blog author #1',
+      url: 'test.blog.url.1',
+      likes: 1,
+      user: {
+        name: 'username1'
+      }
+    }
+
+    const mockHandler = vi.fn()
+
+    render(<Blog blog={blog} updateBlog={mockHandler} />)
+
+    const user = userEvent.setup()
+    const buttonView = screen.getByText('view')
+    const buttonLike = screen.getByText('like')
+
+    await user.click(buttonView)
+    await user.click(buttonLike)
+    await user.click(buttonLike)
+
+    expect(mockHandler.mock.calls).toHaveLength(2)
+  })
 })
