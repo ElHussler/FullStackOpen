@@ -1,7 +1,17 @@
 .notification {
     font-size: 20px;
+    color: green;
     background: light-grey;
-    border: 5px dotted black;
+    border: 5px solid green;
+    padding: 10px;
+    margin-bottom: 10px 
+}
+
+.error {
+    font-size: 20px;
+    color: red;
+    background: light-grey;
+    border: 5px solid red;
     padding: 10px;
     margin-bottom: 10px 
 }

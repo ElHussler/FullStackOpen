@@ -1,0 +1,17 @@
+{
+  "name": "bloglist-e2e",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "lint": "eslint . --ext js --report-unused-disable-directives --max-warnings 0"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^13.13.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-cypress": "^3.3.0"
+  }
+}

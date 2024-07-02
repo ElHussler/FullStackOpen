@@ -12,6 +12,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
   const [message, setMessage] = useState(null)
+  const [isErrorMessage, setIsErrorMessage] = useState(false)
 
   useEffect(() => {
     blogService
@@ -49,6 +50,7 @@ const App = () => {
     }
     catch (exception) {
       console.log('error: ', exception)
+      setIsErrorMessage(true)
       setMessage('wrong credentials')
       setTimeout(() => {
         setMessage(null)
@@ -69,6 +71,7 @@ const App = () => {
       const blog = await blogService.create(newBlog)
 
       setBlogs(blogs.concat(blog))
+      setIsErrorMessage(false)
       setMessage(`New Blog: "${blog.title}" added to list`)
       setTimeout(() => {
         setMessage(null)
@@ -76,6 +79,7 @@ const App = () => {
     }
     catch (exception) {
       console.log('error: ', exception)
+      setIsErrorMessage(true)
       setMessage('invalid blog')
       setTimeout(() => {
         setMessage(null)
@@ -90,6 +94,7 @@ const App = () => {
     }
     catch (exception) {
       console.log('error: ', exception)
+      setIsErrorMessage(true)
       setMessage('invalid blog update')
       setTimeout(() => {
         setMessage(null)
@@ -104,6 +109,7 @@ const App = () => {
     }
     catch (exception) {
       console.log('error: ', exception)
+      setIsErrorMessage(true)
       setMessage('invalid blog delete')
       setTimeout(() => {
         setMessage(null)
@@ -118,7 +124,7 @@ const App = () => {
       <div>
         <h2>Log in to application</h2>
 
-        <Notification message={message} />
+        <Notification message={message} isErrorMessage={isErrorMessage} />
 
         <form onSubmit={handleLogin}>
           <div>
@@ -126,7 +132,7 @@ const App = () => {
             <input
               type='text'
               value={username}
-              name="Username"
+              id="username"
               onChange={({ target }) => {setUsername(target.value)}}
             />
           </div>
@@ -134,11 +140,11 @@ const App = () => {
             password:
             <input type='password'
               value={password}
-              name="Password"
+              id="password"
               onChange={({ target }) => {setPassword(target.value)}}
             />
           </div>
-          <button type='submit'>login</button>
+          <button id='loginButton' type='submit'>login</button>
         </form>
       </div>
     )
@@ -149,7 +155,7 @@ const App = () => {
       <button onClick={handleLogout}>logout</button>
       <h2>blogs</h2>
 
-      <Notification message={message} />
+      <Notification message={message} isErrorMessage={isErrorMessage} />
 
       <p>{user.username} {user.name} logged in</p>
 
