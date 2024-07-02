@@ -1,0 +1,20 @@
+{
+  "name": "notes-e2e",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "lint": "eslint ."
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@stylistic/eslint-plugin-js": "^2.3.0",
+    "cypress": "^13.12.0",
+    "eslint": "^8.45.0",
+    "eslint-plugin-cypress": "^3.3.0",
+    "eslint-plugin-jest": "^28.6.0",
+    "eslint-plugin-react": "^7.34.3"
+  }
+}
