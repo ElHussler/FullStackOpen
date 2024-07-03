@@ -76,6 +76,25 @@ describe('Blog app', function() {
         cy.contains('remove').click()
         cy.should('not.contain', 'this is a new blog title')
       })
+
+      describe('and you are logged in to a different account', function() {
+        beforeEach(function() {
+          const user = {
+            name: 'Jim Jam',
+            username: 'Jimbly',
+            password: 'Jambles'
+          }
+          cy.request('POST', `${Cypress.env('BACKEND')}/users/`, user)
+          cy.visit('')
+          cy.login({ username: 'Jimbly', password: 'Jambles' })
+        })
+
+        it('a user who did not create the blog cannot delete it', function() {
+          cy.get('div.blogTitleAuthor').contains('this is a new blog title').as('blogByDifferentUser')
+          cy.get('@blogByDifferentUser').contains('view').click()
+          cy.get('@blogByDifferentUser').should('not.contain', 'remove')
+        })
+      })
     })
   })
 })
