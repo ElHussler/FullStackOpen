@@ -60,7 +60,8 @@ describe('Blog app', function() {
         cy.createBlog({
           title: 'this is a new blog title',
           author: 'this is a new blog author',
-          url: 'this.is.a.new.blog.url'
+          url: 'this.is.a.new.blog.url',
+          likes: 0
         })
       })
 
@@ -94,6 +95,42 @@ describe('Blog app', function() {
           cy.get('@blogByDifferentUser').contains('view').click()
           cy.get('@blogByDifferentUser').should('not.contain', 'remove')
         })
+      })
+    })
+
+    describe('and several blogs exist', function () {
+      beforeEach(function() {
+        cy.createBlog({
+          title: 'title of blog with 1 like',
+          author: 'author of blog with 1 like',
+          url: 'url.of.blog.with.1.like',
+          likes: 1
+        })
+        cy.createBlog({
+          title: 'title of blog with 500 likes',
+          author: 'author of blog with 500 likes',
+          url: 'url.of.blog.with.500.likes',
+          likes: 500
+        })
+        cy.createBlog({
+          title: 'title of blog with 10 likes',
+          author: 'author of blog with 10 likes',
+          url: 'url.of.blog.with.10.likes',
+          likes: 10
+        })
+        cy.createBlog({
+          title: 'title of blog with 3 likes',
+          author: 'author of blog with 3 likes',
+          url: 'url.of.blog.with.3.likes',
+          likes: 3
+        })
+      })
+
+      it('the blogs are listed in descending order of likes', function() {
+        cy.get('.blogContent').eq(0).contains('title of blog with 500 likes')
+        cy.get('.blogContent').eq(1).contains('title of blog with 10 likes')
+        cy.get('.blogContent').eq(2).contains('title of blog with 3 likes')
+        cy.get('.blogContent').eq(3).contains('title of blog with 1 like')
       })
     })
   })

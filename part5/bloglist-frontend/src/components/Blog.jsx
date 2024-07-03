@@ -39,7 +39,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, userAdded }) => {
   const detailsButtonLabel = visible ? 'cancel' : 'view'
 
   return (
-    <div style={blogStyle}>
+    <div className='blogContent' style={blogStyle}>
       <div className='blogTitleAuthor'>
         {blog.title} {blog.author}
         <button onClick={toggleVisibility}>{detailsButtonLabel}</button>
