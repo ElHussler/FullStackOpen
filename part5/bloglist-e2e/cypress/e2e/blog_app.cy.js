@@ -69,6 +69,13 @@ describe('Blog app', function() {
         cy.contains('Likes: 0').contains('like').click()
         cy.contains('Likes: 1')
       })
+
+      it('the creator of the blog can delete it', function() {
+        cy.get('div.blogTitleAuthor').contains('this is a new blog title')
+        cy.contains('view').click()
+        cy.contains('remove').click()
+        cy.should('not.contain', 'this is a new blog title')
+      })
     })
   })
 })
