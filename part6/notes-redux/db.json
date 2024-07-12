@@ -8,11 +8,15 @@
     {
       "content": "state changes are made with actions",
       "important": false,
-      "id": "2",
-      "importance": true
+      "id": "2"
     },
     {
       "id": "72c7",
+      "content": "test",
+      "important": true
+    },
+    {
+      "id": "1e2a",
       "content": "test",
       "important": true
     }

@@ -27,7 +27,8 @@ const App = () => {
   }
 
   const toggleImportance = (note) => {
-    updateNoteMutation.mutate({ ...note, importance: !note.important })
+    console.log('toggled')
+    updateNoteMutation.mutate({ ...note, important: !note.important })
   }
 
   const result = useQuery({
@@ -35,8 +36,6 @@ const App = () => {
     queryFn: getNotes,
     refetchOnWindowFocus: false
   })
-
-  console.log(JSON.parse(JSON.stringify(result)))
 
   if ( result.isLoading ) {
     return <div>loading data...</div>
