@@ -9,8 +9,15 @@ const AnecdoteForm = () => {
 
   const newAnecdoteMutation = useMutation({
     mutationFn: createAnecdote,
-    onSuccess: () => {
+    onSuccess: (response) => {
+      console.log('reached onsuccess callback: ', response);
       queryClient.invalidateQueries({ queryKey: ['anecdotes'] })
+    },
+    onError: (error) => {
+      dispatchNotification({ type: "ERROR", payload: error.message })
+      setTimeout(() => {
+        dispatchNotification({})
+      }, 5000);
     }
   })
 
@@ -22,7 +29,7 @@ const AnecdoteForm = () => {
     dispatchNotification({ type: "CREATE", payload: content })
     setTimeout(() => {
       dispatchNotification({})
-    }, 5000);
+    }, 5000)
 }
 
   return (
