@@ -1,8 +1,30 @@
+type bmiInputs = {
+  height: number,
+  weight: number
+}
+
+const parseArguments = (args: string[]): bmiInputs => {
+  if (args.length < 4) throw new Error('Not enough arguments');
+  if (args.length > 4) throw new Error('Too many arguments');
+
+  if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
+    return {
+      height: Number(args[2]),
+      weight: Number(args[3])
+    }
+  }
+  else {
+    throw new Error('Provided values were not numbers');
+  }
+}
+
 type BmiResult = 'Underweight' | 'Normal (healthy weight)' | 'Overweight' | 'Obese'
 
 function calculateBmi(heightInCentimeters: number, weight: number): BmiResult {
-  const heightInMeters: number = (heightInCentimeters / 100)
-  const bmi: number = (weight / (heightInMeters * heightInMeters));
+  const heightInMeters: number =
+    (heightInCentimeters / 100)
+  const bmi: number =
+    (weight / (heightInMeters * heightInMeters));
 
   if (bmi < 18.5)
     return 'Underweight';
@@ -17,7 +39,8 @@ function calculateBmi(heightInCentimeters: number, weight: number): BmiResult {
 }
 
 try {
-  console.log(calculateBmi(173, 82));
+  const { height, weight } = parseArguments(process.argv);
+  console.log(calculateBmi(height, weight));
 }
 catch (error: unknown) {
   let errorMessage: string = 'An error occurred.'
