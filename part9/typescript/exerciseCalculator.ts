@@ -10,6 +10,32 @@ interface Result {
   ratingDescription: Description,
 };
 
+interface ExerciseInput {
+  target: number,
+  dailyExerciseHours: number[]
+}
+
+const parseExercises = (): ExerciseInput => {
+  const args = process.argv.slice(2).map(Number);
+
+  if (args.length < 2) throw new Error('Input must contain at least a target number of hours and one day of exercise.');
+
+  for (const arg of args) {
+    if (isNaN(arg)) {
+      throw new Error('All inputs must be valid numbers.');
+    }
+  }
+
+  const targetHours: number = args[0];
+
+  const exerciseDays: number[] = args.slice(1);
+
+  return {
+    target: targetHours,
+    dailyExerciseHours: exerciseDays
+  }
+};
+
 function calculateExercises(dailyExerciseHours: number[], target: number): Result {
   const periodLength: number = dailyExerciseHours.length;
   const trainingDays: number = dailyExerciseHours.filter(day => day > 0).length;
@@ -44,6 +70,7 @@ function calculateExercises(dailyExerciseHours: number[], target: number): Resul
       break;
     default:
       throw new Error('Something broke!');
+      break;
   }
 
   return {
@@ -58,7 +85,8 @@ function calculateExercises(dailyExerciseHours: number[], target: number): Resul
 };
 
 try {
-  console.log(calculateExercises([1,2,3,0,0,0,4], 1.4));
+  const { dailyExerciseHours, target } = parseExercises();
+  console.log(calculateExercises(dailyExerciseHours, target));
 }
 catch (error: unknown) {
   let errorMessage: string = 'An error occurred.';
