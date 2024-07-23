@@ -1,9 +1,9 @@
-type bmiInputs = {
+interface BmiInputs {
   height: number,
   weight: number
 }
 
-const parseArguments = (args: string[]): bmiInputs => {
+const parseArguments = (args: string[]): BmiInputs => {
   if (args.length < 4) throw new Error('Not enough arguments');
   if (args.length > 4) throw new Error('Too many arguments');
 
