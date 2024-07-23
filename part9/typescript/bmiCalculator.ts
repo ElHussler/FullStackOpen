@@ -39,8 +39,10 @@ function calculateBmi(heightInCentimeters: number, weight: number): BmiResult {
 }
 
 try {
-  const { height, weight } = parseArguments(process.argv);
-  console.log(calculateBmi(height, weight));
+  if (process.argv[1] && process.argv[1] === 'bmiCalculator.ts') {
+    const { height, weight } = parseArguments(process.argv);
+    console.log(calculateBmi(height, weight));
+  }
 }
 catch (error: unknown) {
   let errorMessage: string = 'An error occurred.'
@@ -51,3 +53,5 @@ catch (error: unknown) {
 
   console.log(errorMessage); 
 }
+
+export default calculateBmi;
