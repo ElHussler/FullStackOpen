@@ -11,18 +11,18 @@ const parseArguments = (args: string[]): BmiInputs => {
     return {
       height: Number(args[2]),
       weight: Number(args[3])
-    }
+    };
   }
   else {
     throw new Error('Provided values were not numbers');
   }
-}
+};
 
-type BmiResult = 'Underweight' | 'Normal (healthy weight)' | 'Overweight' | 'Obese'
+type BmiResult = 'Underweight' | 'Normal (healthy weight)' | 'Overweight' | 'Obese';
 
 function calculateBmi(heightInCentimeters: number, weight: number): BmiResult {
   const heightInMeters: number =
-    (heightInCentimeters / 100)
+    (heightInCentimeters / 100);
   const bmi: number =
     (weight / (heightInMeters * heightInMeters));
 
@@ -45,10 +45,10 @@ try {
   }
 }
 catch (error: unknown) {
-  let errorMessage: string = 'An error occurred.'
+  let errorMessage: string = 'An error occurred.';
 
   if (error instanceof Error) {
-    errorMessage += ` ${error.message}.`
+    errorMessage += ` ${error.message}.`;
   }
 
   console.log(errorMessage); 

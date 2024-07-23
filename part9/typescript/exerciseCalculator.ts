@@ -1,6 +1,6 @@
-type Description = 'BAD' | 'OK' | 'GOOD';
+export type Description = 'BAD' | 'OK' | 'GOOD';
 
-interface Result {
+export interface Result {
   periodLength: number,
   trainingDays: number,
   success: boolean,
@@ -8,7 +8,7 @@ interface Result {
   average: number,
   rating: number,
   ratingDescription: Description,
-};
+}
 
 interface ExerciseInput {
   target: number,
@@ -33,7 +33,7 @@ const parseExercises = (): ExerciseInput => {
   return {
     target: targetHours,
     dailyExerciseHours: exerciseDays
-  }
+  };
 };
 
 function calculateExercises(dailyExerciseHours: number[], target: number): Result {
@@ -43,8 +43,8 @@ function calculateExercises(dailyExerciseHours: number[], target: number): Resul
   const average: number = (totalHours / periodLength);
   const success: boolean = (average >= target);
   
-  let rating: number;
-  let percentageAchieved: number = (average / target);
+  let rating: number = 0;
+  const percentageAchieved: number = (average / target);
 
   if (percentageAchieved <= 0.33) {
     rating = 1;
@@ -56,7 +56,7 @@ function calculateExercises(dailyExerciseHours: number[], target: number): Resul
     rating = 3;
   }
 
-  let ratingDescription: Description = null;
+  let ratingDescription: Description;
 
   switch (rating) {
     case 1:
@@ -70,7 +70,6 @@ function calculateExercises(dailyExerciseHours: number[], target: number): Resul
       break;
     default:
       throw new Error('Something broke!');
-      break;
   }
 
   return {
@@ -82,18 +81,22 @@ function calculateExercises(dailyExerciseHours: number[], target: number): Resul
     rating,
     ratingDescription
   } as Result;
-};
+}
 
-try {
-  const { dailyExerciseHours, target } = parseExercises();
-  console.log(calculateExercises(dailyExerciseHours, target));
+try {  
+  if (process.argv[1] && process.argv[1] === 'exerciseCalculator.ts') {
+    const { dailyExerciseHours, target } = parseExercises();
+    console.log(calculateExercises(dailyExerciseHours, target));
+  }
 }
 catch (error: unknown) {
   let errorMessage: string = 'An error occurred.';
 
   if (error instanceof Error) {
     errorMessage += ` ${error.message}.`;
-  };
+  }
 
   console.log(errorMessage); 
-};
+}
+
+export default calculateExercises;
