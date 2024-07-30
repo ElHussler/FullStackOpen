@@ -10,7 +10,7 @@ const toNewDiaryEntry = (object: unknown): NewDiaryEntry => {
       weather: parseWeather(object.weather),
       visibility: parseVisibility(object.visibility),
       date: parseDate(object.date),
-      comment: parseComment(object.date)
+      comment: parseComment(object.comment)
     };
 
     return newEntry;
