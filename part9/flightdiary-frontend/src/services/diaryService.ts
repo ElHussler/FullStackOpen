@@ -12,8 +12,5 @@ export const getAllDiaries = () => {
 export const addDiary = (newDiary: NewDiaryEntry) => {
   return axios
     .post<DiaryEntry>(baseUrl, newDiary)
-    .then(response => response.data)
-    .catch(error => {
-      throw new Error(error);
-    });
+    .then(response => response.data);
 };

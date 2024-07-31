@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { DiaryEntry, Visibility, Weather } from './types/types';
+import { DiaryEntry, Visibility, VisibilityFormType, Weather, WeatherFormType } from './types/types';
 import { addDiary, getAllDiaries } from './services/diaryService';
 import axios from 'axios';
 
 function App() {
   const [diaries, setDiaries] = useState<DiaryEntry[]>([]);
   const [newDate, setNewDate] = useState('');
-  const [newVisibility, setNewVisibility] = useState<Visibility>(Visibility.Great);
-  const [newWeather, setNewWeather] = useState(Weather.Sunny);
+  const [newVisibility, setNewVisibility] = useState<VisibilityFormType>(null);
+  const [newWeather, setNewWeather] = useState<WeatherFormType>(null);
   const [newComment, setNewComment] = useState('');
   const [error, setError] = useState('');
 
@@ -19,34 +19,47 @@ function App() {
 
   const handleAddDiary = (event: React.SyntheticEvent) => {
     event.preventDefault();
-    const newDiaryEntry = {
-      date: newDate,
-      weather: newWeather,
-      visibility: newVisibility,
-      comment: newComment
-    }
-    try {
-      addDiary(newDiaryEntry)
-        .then(addedDiary => {
-          setDiaries(diaries.concat(addedDiary));
-        });
-    } catch (error) {
-      let msg = 'Something went wrong.'
-
-      if (axios.isAxiosError(error)) {
-        msg += ` ${error.message}`;
-      }
-      setError(msg);
+    if (!newWeather || !newVisibility || newDate.length === 0) {
+      setError(`Required fields are empty`);
       setTimeout(() => {
         setError('');
       }, 5000);
+
+      return;
     }
+
+    const newDiaryEntry = {
+      date: newDate,
+      weather: newWeather as Weather,
+      visibility: newVisibility as Visibility,
+      comment: newComment
+    }
+
+    addDiary(newDiaryEntry)
+      .then(addedDiary => {
+        setDiaries(diaries.concat(addedDiary));
+      })
+      .catch(error => {
+        let msg = 'Error. Something went wrong.'
+
+        if (axios.isAxiosError(error)) {
+          if (error.response) {
+            msg = `${error.response.data}`;
+          }
+        }
+        setError(msg);
+        setTimeout(() => {
+          setError('');
+        }, 5000);
+      });
   };
 
   return (
     <>
       <h1>Add Diary</h1>
-      {error}
+      <div>
+        {error}
+      </div>
       <form onSubmit={handleAddDiary}>
         <div>
           date <input
@@ -57,7 +70,7 @@ function App() {
         </div>
         <div>
           weather: {Object.values(Weather).map(w => (
-            <div key={w.toString()}>
+            <div key={w.toString()} style={{display: 'inline-block'}}>
               {w.toString()} <input
                 type='radio'
                 name='weather'
@@ -69,7 +82,7 @@ function App() {
         </div>
         <div>
           visibility: {Object.values(Visibility).map(v => (
-            <div key={v.toString()}>
+            <div key={v.toString()} style={{display: 'inline-block'}}>
               {v.toString()} <input
                 type='radio'
                 name='visibility'
