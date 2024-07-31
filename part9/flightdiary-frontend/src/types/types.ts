@@ -22,3 +22,7 @@ export interface DiaryEntry {
 }
 
 export type NewDiaryEntry = Omit<DiaryEntry, 'id'>;
+
+export type WeatherFormType = Weather | null;
+
+export type VisibilityFormType = Visibility | null;
