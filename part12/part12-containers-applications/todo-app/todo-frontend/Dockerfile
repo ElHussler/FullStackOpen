@@ -1,4 +1,4 @@
-FROM node:20-bullseye-slim
+FROM node:20-bullseye-slim AS build-stage
 
 WORKDIR /usr/src/app
 
@@ -12,6 +12,6 @@ ENV NODE_ENV=production
 
 RUN npm run build
 
-RUN npm install -g serve
+FROM nginx:1.27-alpine
 
-CMD [ "serve", "dist" ]
+COPY --from=build-stage /usr/src/app/dist /usr/share/nginx/html
